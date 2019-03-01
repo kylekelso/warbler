@@ -1,6 +1,6 @@
 const db = require("../models");
 
-exports.createPosts = async function(req, res, next) {
+exports.createPost = async function(req, res, next) {
   try {
     //find all users that are associated with tags
     let tags = await db.user.find(

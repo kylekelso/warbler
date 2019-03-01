@@ -1,6 +1,12 @@
 const express = require("express"),
   router = express.Router();
 
-router.get("/login");
-router.get("/logout");
-router.get("/register");
+const {
+  loginUser,
+  logoutUser,
+  registerUser
+} = require("../handlers/authentication");
+
+router.get("/login", loginUser);
+router.get("/logout", logoutUser);
+router.get("/register", registerUser);

@@ -1,6 +1,8 @@
 const express = require("express"),
   router = express.Router();
 
+const { getUser } = require("../handlers/user");
+
 /* READ */
 /*
  * Index - will retrieve users via search query (pagination)
@@ -8,7 +10,7 @@ const express = require("express"),
  */
 //router.get("/");
 //Show - get specific user
-router.get("/:user_id");
+router.get("/:user_id", getUser);
 
 /* UPDATE */
 /*

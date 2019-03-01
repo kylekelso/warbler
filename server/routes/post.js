@@ -1,12 +1,14 @@
 const express = require("express"),
   router = express.Router();
 
+const { createPost, getPosts, deletePost } = require("../handlers/post");
+
 /* CREATE */
-router.post("/");
+router.post("/", createPost);
 
 /* READ */
 //Index - will get all posts based on query and authorizaton
-router.get("/");
+router.get("/", getPosts);
 /*
  * Show - get specific post
  * NOTE: Unused at the moment. Will likely be used to inspect a post and it's reply chains.
@@ -21,4 +23,4 @@ router.get("/");
 //router.put("/:post_id");
 
 /* DELETE */
-router.delete("/:post_id");
+router.delete("/:post_id", deletePost);
