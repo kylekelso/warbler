@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const key = require("../config/keys");
+const keys = require("../config/keys");
 
 if (process.env.NODE_ENV !== "production") {
   mongoose.set("debug", true);
@@ -13,4 +13,4 @@ mongoose.connect(keys.MONGO_URI, {
 });
 
 module.exports.User = require("./User");
-module.exports.Message = require("./Post");
+module.exports.Post = require("./Post");

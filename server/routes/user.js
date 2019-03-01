@@ -25,3 +25,5 @@ router.get("/:user_id", getUser);
  * NOTE: Unused at the moment. Future update.
  */
 //router.delete("/:user_id");
+
+module.exports = router;

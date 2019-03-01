@@ -3,7 +3,7 @@ const db = require("../models");
 exports.createPost = async function(req, res, next) {
   try {
     //find all users that are associated with tags
-    let tags = await db.user.find(
+    let tags = await db.User.find(
       { username: { $in: req.body.tags } },
       { _id: 1 }
     );
@@ -12,13 +12,12 @@ exports.createPost = async function(req, res, next) {
     let post = await db.Post.create({
       author: req.user.id,
       text: req.body.text,
-      profileImgUrl: req.body.profileImgUrl || "Default",
       tags
     });
 
     //get the user by id and add it to posts array as ref.
     let user = await db.User.findOne({ _id: req.user.id });
-    user.Posts.push(post.id);
+    user.posts.push(post.id);
     await user.save();
 
     //populate created post and send it back to client
@@ -41,14 +40,15 @@ exports.createPost = async function(req, res, next) {
 exports.getPosts = async function(req, res, next) {
   try {
     //get pagination vars
-    var page = Math.max(0, req.query.page - 1);
+    var page = Math.max(0, req.query.page - 1) || 0;
     var take = req.query.take || 10;
 
     /*
      * find all posts by user query, skip to page based on take value, get only certain amount (take),
      * have newest posts first, and make sure to fill author/tags user references.
      */
-    let posts = await db.Post.find({ author: req.query.userId })
+    console.log(req.params);
+    let posts = await db.Post.find({ author: req.params.user_id })
       .skip(page * take)
       .limit(take)
       .sort({ createdAt: "desc" })
@@ -82,7 +82,7 @@ exports.deletePost = async function(req, res, next) {
 
     if (post.author.id === req.user.id) {
       await post.remove();
-      return res.status(200).send();
+      return res.status(200).send("Success");
     }
 
     return next({

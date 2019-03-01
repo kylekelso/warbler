@@ -1,4 +1,4 @@
-const { createSession } = require("../middleware/auth");
+const { createSession } = require("../middleware/authentication");
 const db = require("../models");
 const keys = require("../config/keys");
 
@@ -8,10 +8,11 @@ exports.loginUser = async function(req, res, next) {
     let user = await db.User.findOne({
       email: req.body.email
     });
+
     let isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
       let { id, username, profileImgUrl } = user;
-      createSessionUser(req, res, user);
+      createSession(req, res, user);
       return res.status(200).json({
         id,
         username,
@@ -41,7 +42,7 @@ exports.registerUser = async function(req, res, next) {
   try {
     let user = await db.User.create(req.body);
     let { id, username, profileImgUrl } = user;
-    createSessionUser(req, res, user);
+    createSession(req, res, user);
     return res.status(200).json({
       id,
       username,

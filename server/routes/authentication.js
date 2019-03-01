@@ -7,6 +7,8 @@ const {
   registerUser
 } = require("../handlers/authentication");
 
-router.get("/login", loginUser);
+router.post("/login", loginUser);
 router.get("/logout", logoutUser);
-router.get("/register", registerUser);
+router.post("/register", registerUser);
+
+module.exports = router;

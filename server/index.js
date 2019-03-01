@@ -14,6 +14,7 @@ const keys = require("./config/keys"),
     loadSession
   } = require("./middleware/authentication");
 const app = express();
+app.use(bodyParser.json());
 app.use(
   sessions({
     cookieName: "session",
@@ -26,10 +27,9 @@ app.use(loadSession);
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api/:user_id", checkSessionExists, verifySession, postRoutes);
+app.use("/api", checkSessionExists, verifySession, postRoutes);
 
-app.use(errorHandler);
-
+app.use(errorHandlers);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, function() {
