@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const keys = require("../config/keys");
 
-exports.checkSession = (req, res, next) => {
+exports.checkSessionExists = (req, res, next) => {
   if (req.user) {
     return next();
   }

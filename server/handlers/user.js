@@ -3,7 +3,7 @@ const db = require("../models");
 exports.getUser = async function(req, res, next) {
   try {
     let user = await db.User.findOne({
-      username: req.params.username
+      _id: req.params.user_id
     });
 
     if (!user) {
