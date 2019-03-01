@@ -15,3 +15,8 @@ export const registerUser = data => async dispatch => {
   const res = await axios.post("/api/register", data);
   dispatch({ type: SET_CURRENT_USER, payload: res.data });
 };
+
+export const getSession = () => async dispatch => {
+  const res = await axios.get("/api/session");
+  dispatch({ type: SET_CURRENT_USER, payload: res.data });
+};

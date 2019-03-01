@@ -2,8 +2,18 @@ import "materialize-css/dist/css/materialize.min.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
+import { logoutUser } from "../store/actions";
 
 class Navbar extends Component {
+  logout = async e => {
+    e.preventDefault();
+    await this.props.logoutUser();
+
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push("/");
+    }
+  };
   renderContent() {
     switch (this.props.auth.isAuthenticated) {
       case null:
@@ -11,10 +21,10 @@ class Navbar extends Component {
       case false:
         return [
           <li key="1">
-            <Link to="/i/login">Login</Link>
+            <Link to="/a/login">Login</Link>
           </li>,
           <li key="2">
-            <Link to="/i/register">Register</Link>
+            <Link to="/a/register">Register</Link>
           </li>
         ];
       default:
@@ -23,7 +33,7 @@ class Navbar extends Component {
             <Link to="/u/settings">Settings</Link>
           </li>,
           <li key="2">
-            <Link to="/i/logout" onClick={this.logout}>
+            <Link to="/a/logout" onClick={this.logout}>
               Logout
             </Link>
           </li>
@@ -53,4 +63,7 @@ function mapStateToProps({ auth }) {
   return { auth };
 }
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(withRouter(Navbar));
