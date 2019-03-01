@@ -1,0 +1,8 @@
+module.exports = {
+  MONGO_URI: process.env.MONGO_URI,
+  BCRYPT_WORK_FACTOR: process.env.BCRYPT_WORK_FACTOR,
+  SESSION_SECRET_KEY: process.env.SESSION_SECRET,
+  SESSION_DURATION: process.env.SESSION_DURATION,
+  JWT_SIGNING_ALGORITHM: process.env.JWT_ALGORITHM,
+  JWT_SIGNING_KEY: process.env.JWT_KEY
+};
