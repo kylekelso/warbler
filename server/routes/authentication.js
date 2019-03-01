@@ -4,11 +4,13 @@ const express = require("express"),
 const {
   loginUser,
   logoutUser,
-  registerUser
+  registerUser,
+  getSession
 } = require("../handlers/authentication");
 
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 router.post("/register", registerUser);
+router.get("/session", getSession);
 
 module.exports = router;
