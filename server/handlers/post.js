@@ -41,7 +41,7 @@ exports.getPosts = async function(req, res, next) {
   try {
     //get pagination vars
     var page = Math.max(0, req.query.page - 1) || 0;
-    var take = req.query.take || 10;
+    var take = 10;
 
     /*
      * find all posts by user query, skip to page based on take value, get only certain amount (take),
