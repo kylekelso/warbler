@@ -4,8 +4,15 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import { logoutUser } from "../store/actions";
+import M from "materialize-css";
 
 class Navbar extends Component {
+  componentDidMount() {
+    var NAV_REF = document.querySelector(".sidenav");
+    console.log(NAV_REF);
+    M.Sidenav.init(NAV_REF);
+  }
+
   logout = async e => {
     e.preventDefault();
     await this.props.logoutUser();
@@ -14,6 +21,7 @@ class Navbar extends Component {
       this.props.history.push("/");
     }
   };
+
   renderContent() {
     switch (this.props.auth.isAuthenticated) {
       case null:
@@ -43,21 +51,31 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav>
-        <div className="nav-wrapper">
-          <div className="row">
-            <div className="col s12">
-              <Link
-                to={`/${this.props.auth.user.username}`}
-                className="brand-logo"
-              >
-                Warbler
-              </Link>
-              <ul className="right"> {this.renderContent()} </ul>
-            </div>
+      <div>
+        <nav>
+          <div className="nav-wrapper">
+            <Link
+              to={`/${this.props.auth.user.username}`}
+              className="brand-logo center"
+            >
+              Warbler
+            </Link>
+            <a
+              href="#!"
+              data-target="mobile-sidenav"
+              className="sidenav-trigger right"
+            >
+              <i className="material-icons">menu</i>
+            </a>
+            <ul className="right hide-on-med-and-down">
+              {this.renderContent()}
+            </ul>
           </div>
-        </div>
-      </nav>
+        </nav>
+        <ul className="sidenav" id="mobile-sidenav">
+          {this.renderContent()}
+        </ul>
+      </div>
     );
   }
 }

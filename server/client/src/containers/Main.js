@@ -10,7 +10,7 @@ class Main extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col s10 offset-s1">
+        <div className="col m12 l10 offset-l1">
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/a/login" component={Login} />
