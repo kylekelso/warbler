@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { setView } from "../store/actions";
 import requireAuth from "../hocs/requireAuth";
 import UserAside from "../components/UserAside";
+import PostTimeline from "./../components/PostTimeline";
 
 class ProfilePage extends Component {
   async componentDidMount() {
@@ -15,8 +16,28 @@ class ProfilePage extends Component {
     }
   }
 
+  renderPostForm() {
+    if (this.props.auth.user.username === this.props.view.username) {
+      return <div>PostForm</div>;
+    }
+  }
+
   renderContent() {
-    return <UserAside />;
+    let { auth } = this.props;
+    let content = [];
+    if (!auth.isAuthenticated) {
+      return <div>Page does not exist</div>;
+    }
+    content.push(
+      <div key="1" className="col s3">
+        <UserAside />
+      </div>,
+      <div key="2" className="col s6">
+        {this.renderPostForm()}
+        <PostTimeline />
+      </div>
+    );
+    return content;
   }
 
   render() {
@@ -29,7 +50,11 @@ class ProfilePage extends Component {
   }
 }
 
+function mapStateToProps({ auth, view }) {
+  return { auth, view };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   { setView }
 )(requireAuth(ProfilePage));
