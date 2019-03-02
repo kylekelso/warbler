@@ -9,7 +9,6 @@ import M from "materialize-css";
 class Navbar extends Component {
   componentDidMount() {
     var NAV_REF = document.querySelector(".sidenav");
-    console.log(NAV_REF);
     M.Sidenav.init(NAV_REF);
   }
 
