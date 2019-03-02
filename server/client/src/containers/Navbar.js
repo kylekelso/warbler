@@ -47,7 +47,10 @@ class Navbar extends Component {
         <div className="nav-wrapper">
           <div className="row">
             <div className="col s12">
-              <Link to="/" className="brand-logo">
+              <Link
+                to={`/${this.props.auth.user.username}`}
+                className="brand-logo"
+              >
                 Warbler
               </Link>
               <ul className="right"> {this.renderContent()} </ul>

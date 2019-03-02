@@ -10,7 +10,7 @@ const { getUser } = require("../handlers/user");
  */
 //router.get("/");
 //Show - get specific user
-router.get("/:user_id", getUser);
+router.get("/:username", getUser);
 
 /* UPDATE */
 /*
