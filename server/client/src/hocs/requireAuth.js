@@ -5,7 +5,7 @@ export default ChildComponent => {
   class ComposedComponent extends Component {
     async componentDidMount() {
       if (this.props.auth.isAuthenticated === false) {
-        this.props.history.push("/i/login");
+        this.props.history.push("/a/login");
       }
     }
 
