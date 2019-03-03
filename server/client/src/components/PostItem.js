@@ -4,6 +4,20 @@ import { Link } from "react-router-dom";
 import { deletePost } from "../store/actions";
 import DefaultProfileImg from "../images/default-profile-image.jpg";
 class PostItem extends Component {
+  renderTags = () => {
+    if (this.props.tags.length !== 0) {
+      let links = this.props.tags.map((tag, index) => {
+        return (
+          <Link key={index} to={`/${tag}`}>
+            @{tag} &nbsp;
+          </Link>
+        );
+      });
+
+      return <p>Reply to {links}</p>;
+    }
+  };
+
   render() {
     return (
       <li className="collection-item avatar">
@@ -16,6 +30,7 @@ class PostItem extends Component {
           <Link to={`/${this.props.user}`}>{this.props.user} &nbsp;</Link>
         </span>
         <p>{this.props.text}</p>
+        {this.renderTags()}
         <Link to={`/${this.props.user}`} className="secondary-content">
           {this.props.isOwner && (
             <i

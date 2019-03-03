@@ -5,20 +5,24 @@ import PostItem from "./PostItem";
 class PostTimeline extends Component {
   renderContent() {
     let { auth, post } = this.props;
-    return post.list.map((p, i) => {
-      return (
-        <PostItem
-          key={i}
-          id={p._id}
-          date={p.createdAt}
-          text={p.text}
-          user={p.author.username}
-          imgUrl={p.author.profileImgUrl}
-          tags={p.tags.map(t => t.username)}
-          isOwner={auth.user.username === p.author.username}
-        />
-      );
-    });
+    if (post.list.length !== 0) {
+      return post.list.map((p, i) => {
+        return (
+          <PostItem
+            key={i}
+            id={p._id}
+            date={p.createdAt}
+            text={p.text}
+            user={p.author.username}
+            imgUrl={p.author.profileImgUrl}
+            tags={p.tags.map(t => t.username)}
+            isOwner={auth.user.username === p.author.username}
+          />
+        );
+      });
+    }
+
+    return <li className="collection-item center-align">No Posts</li>;
   }
 
   render() {

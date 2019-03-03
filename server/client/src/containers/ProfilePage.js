@@ -25,7 +25,29 @@ class ProfilePage extends Component {
     }
   }
 
+  renderPreLoader() {
+    return (
+      <div className="preloader-wrapper big active">
+        <div className="spinner-layer spinner-blue-only">
+          <div className="circle-clipper left">
+            <div className="circle" />
+          </div>
+          <div className="gap-patch">
+            <div className="circle" />
+          </div>
+          <div className="circle-clipper right">
+            <div className="circle" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   renderContent() {
+    if (this.props.post.isFetching) {
+      return this.renderPreLoader();
+    }
+
     let { auth } = this.props;
     let content = [];
     if (!auth.isAuthenticated) {
@@ -53,8 +75,8 @@ class ProfilePage extends Component {
   }
 }
 
-function mapStateToProps({ auth, view }) {
-  return { auth, view };
+function mapStateToProps({ auth, view, post }) {
+  return { auth, view, post };
 }
 
 export default connect(
