@@ -4,13 +4,13 @@ import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import ProfilePage from "./ProfilePage";
 
-const Landing = () => <h2>Landing</h2>; //will login and join here
+const Landing = () => <h2 className="home-hero">Welcome to Warbler!</h2>; //will login and join here
 
 class Main extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col s10 offset-s1">
+        <div className="col m12 l10 offset-l1">
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/a/login" component={Login} />

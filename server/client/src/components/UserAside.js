@@ -14,7 +14,6 @@ class UserAside extends Component {
         </div>
         <div className="card-content">
           <span className="card-title">@{this.props.view.username}</span>
-          <p>Placeholder Description</p>
         </div>
       </div>
     );

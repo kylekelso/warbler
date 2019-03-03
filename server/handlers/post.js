@@ -41,14 +41,15 @@ exports.getPosts = async function(req, res, next) {
   try {
     //get pagination vars
     var page = Math.max(0, req.query.page - 1) || 0;
-    var take = req.query.take || 10;
+    var take = 10;
 
     /*
      * find all posts by user query, skip to page based on take value, get only certain amount (take),
      * have newest posts first, and make sure to fill author/tags user references.
      */
     console.log(req.params);
-    let posts = await db.Post.find({ author: req.params.user_id })
+    let posts = await db.Post.find()
+      .or([{ author: req.params.user_id }, { tags: req.params.user_id }])
       .skip(page * take)
       .limit(take)
       .sort({ createdAt: "desc" })

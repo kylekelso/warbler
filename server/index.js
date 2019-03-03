@@ -8,11 +8,7 @@ const keys = require("./config/keys"),
   postRoutes = require("./routes/post"),
   userRoutes = require("./routes/user"),
   errorHandlers = require("./handlers/error"),
-  {
-    checkSessionExists,
-    verifySession,
-    loadSession
-  } = require("./middleware/authentication");
+  { loadSession } = require("./middleware/authentication");
 const app = express();
 app.use(bodyParser.json());
 app.use(
@@ -27,7 +23,7 @@ app.use(loadSession);
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api", checkSessionExists, verifySession, postRoutes);
+app.use("/api", postRoutes);
 
 app.use(errorHandlers);
 const PORT = process.env.PORT || 5000;

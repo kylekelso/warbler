@@ -7,6 +7,7 @@ import { composeWithDevTools } from "redux-devtools-extension/logOnlyInProductio
 
 import App from "./containers/App";
 import reducers from "./store/reducers";
+import "./index.css";
 
 const store = createStore(
   reducers,
