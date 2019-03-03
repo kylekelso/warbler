@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setView, getPosts, resetLoader } from "../store/actions";
-import requireAuth from "../hocs/requireAuth";
 import UserAside from "../components/UserAside";
 import PostTimeline from "./../components/PostTimeline";
 import AddPostForm from "./../components/AddPostForm";
 import Spinner from "./../components/spinner";
+import NotFound from "./notFound";
 
 class ProfilePage extends Component {
   componentDidMount() {
@@ -20,8 +20,11 @@ class ProfilePage extends Component {
 
   async fetchData() {
     await this.props.resetLoader();
-    await this.props.setView(this.props.match.params.username);
-    await this.props.getPosts(this.props.view.id);
+    await this.props.setView(this.props.match.params.username).then(() => {
+      if (this.props.view.userExists) {
+        this.props.getPosts(this.props.view.id);
+      }
+    });
   }
 
   renderPostForm() {
@@ -31,7 +34,11 @@ class ProfilePage extends Component {
   }
 
   renderContent() {
-    if (!this.props.post.loaded) {
+    if (this.props.view.userExists === false) {
+      return <NotFound />;
+    }
+
+    if (this.props.post.loaded === false) {
       return <Spinner />;
     }
 
