@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, reset } from "redux-form";
 import { connect } from "react-redux";
 import { addPost, validateTag } from "../store/actions";
 import M from "materialize-css";
@@ -52,6 +52,7 @@ class AddPostForm extends Component {
     let instance = M.Chips.getInstance(this.TAG_AREA_REF);
     formVals.tags = instance.chipsData.map(a => a.tag);
     this.props.addPost(formVals);
+    return instance;
   };
 
   render() {
@@ -88,6 +89,11 @@ const validate = formVals => {
   return errors;
 };
 
+const afterSubmit = (result, dispatch) => {
+  result.chipsData = [];
+  dispatch(reset("newPost"));
+};
+
 function mapStateToProps({ post }) {
   return { post };
 }
@@ -99,5 +105,6 @@ AddPostForm = connect(
 
 export default reduxForm({
   form: "newPost",
+  onSubmitSuccess: afterSubmit,
   validate
 })(AddPostForm);

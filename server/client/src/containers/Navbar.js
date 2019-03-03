@@ -54,7 +54,7 @@ class Navbar extends Component {
         <nav>
           <div className="nav-wrapper">
             <Link
-              to={`/${this.props.auth.user.username}`}
+              to={`/${this.props.auth.user.username || ""}`}
               className="brand-logo center"
             >
               Warbler

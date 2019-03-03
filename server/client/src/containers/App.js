@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
 import Navbar from "./Navbar";
 import Main from "./Main";
+import Spinner from "./../components/spinner";
 import { getSession } from "../store/actions";
 
 class App extends Component {
@@ -16,14 +16,18 @@ class App extends Component {
       <BrowserRouter>
         <div className="onboarding">
           <Navbar />
-          <Main />
+          {this.props.auth.isAuthenticated === null ? <Spinner /> : <Main />}
         </div>
       </BrowserRouter>
     );
   }
 }
 
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   { getSession }
 )(App);

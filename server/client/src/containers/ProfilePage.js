@@ -1,22 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setView, getPosts } from "../store/actions";
-import requireAuth from "../hocs/requireAuth";
+import { setView, getPosts, resetLoader } from "../store/actions";
 import UserAside from "../components/UserAside";
 import PostTimeline from "./../components/PostTimeline";
 import AddPostForm from "./../components/AddPostForm";
+import Spinner from "./../components/spinner";
+import NotFound from "./notFound";
 
 class ProfilePage extends Component {
-  async componentDidMount() {
-    await this.props.setView(this.props.match.params.username);
-    await this.props.getPosts(this.props.view.id);
+  componentDidMount() {
+    this.fetchData();
   }
 
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
-      await this.props.setView(this.props.match.params.username);
-      await this.props.getPosts(this.props.view.id);
+      this.fetchData();
     }
+  }
+
+  async fetchData() {
+    await this.props.resetLoader();
+    await this.props.setView(this.props.match.params.username).then(() => {
+      if (this.props.view.userExists) {
+        this.props.getPosts(this.props.view.id);
+      }
+    });
   }
 
   renderPostForm() {
@@ -25,34 +33,16 @@ class ProfilePage extends Component {
     }
   }
 
-  renderPreLoader() {
-    return (
-      <div className="preloader-wrapper big active">
-        <div className="spinner-layer spinner-blue-only">
-          <div className="circle-clipper left">
-            <div className="circle" />
-          </div>
-          <div className="gap-patch">
-            <div className="circle" />
-          </div>
-          <div className="circle-clipper right">
-            <div className="circle" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   renderContent() {
-    if (this.props.post.isFetching) {
-      return this.renderPreLoader();
+    if (this.props.view.userExists === false) {
+      return <NotFound />;
     }
 
-    let { auth } = this.props;
-    let content = [];
-    if (!auth.isAuthenticated) {
-      return <div>Page does not exist</div>;
+    if (this.props.post.loaded === false) {
+      return <Spinner />;
     }
+
+    let content = [];
     content.push(
       <div key="1" className="col s8 offset-s2 m3">
         <UserAside />
@@ -81,5 +71,5 @@ function mapStateToProps({ auth, view, post }) {
 
 export default connect(
   mapStateToProps,
-  { setView, getPosts }
-)(requireAuth(ProfilePage));
+  { setView, getPosts, resetLoader }
+)(ProfilePage);
