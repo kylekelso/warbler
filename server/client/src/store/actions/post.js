@@ -1,5 +1,11 @@
 import axios from "axios";
-import { GET_POSTS, ADD_POST, DELETE_POST, VALIDATE_TAG } from "../actionTypes";
+import {
+  GET_POSTS,
+  ADD_POST,
+  DELETE_POST,
+  VALIDATE_TAG,
+  RESET_LOADER
+} from "../actionTypes";
 
 export const getPosts = (user_id, page = 0) => async dispatch => {
   const res = await axios.get(`/api/${user_id}/posts`, {
@@ -21,4 +27,8 @@ export const deletePost = post_id => async dispatch => {
 export const validateTag = tag => async dispatch => {
   const res = await axios.get(`/api/${tag}`);
   dispatch({ type: VALIDATE_TAG, payload: res.data });
+};
+
+export const resetLoader = () => dispatch => {
+  dispatch({ type: RESET_LOADER });
 };
