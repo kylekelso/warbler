@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const keys = require("../config/keys");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -34,7 +33,8 @@ userSchema.pre("save", async function(next) {
     if (!this.isModified("password")) {
       return next();
     }
-    let hashedPwd = await bcrypt.hash(this.password, keys.BCRYPT_WORK_FACTOR);
+    let salt = await bcrypt.genSalt();
+    let hashedPwd = await bcrypt.hash(this.password, salt);
     this.password = hashedPwd;
     return next();
   } catch (err) {
