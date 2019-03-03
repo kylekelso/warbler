@@ -7,16 +7,19 @@ import PostTimeline from "./../components/PostTimeline";
 import AddPostForm from "./../components/AddPostForm";
 
 class ProfilePage extends Component {
-  async componentDidMount() {
-    await this.props.setView(this.props.match.params.username);
-    await this.props.getPosts(this.props.view.id);
+  componentDidMount() {
+    this.fetchData();
   }
 
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
-      await this.props.setView(this.props.match.params.username);
-      await this.props.getPosts(this.props.view.id);
+      this.fetchData();
     }
+  }
+
+  async fetchData() {
+    await this.props.setView(this.props.match.params.username);
+    await this.props.getPosts(this.props.view.id);
   }
 
   renderPostForm() {
@@ -44,15 +47,10 @@ class ProfilePage extends Component {
   }
 
   renderContent() {
-    if (this.props.post.isFetching) {
+    if (this.props.preloading) {
       return this.renderPreLoader();
     }
-
-    let { auth } = this.props;
     let content = [];
-    if (!auth.isAuthenticated) {
-      return <div>Page does not exist</div>;
-    }
     content.push(
       <div key="1" className="col s8 offset-s2 m3">
         <UserAside />
@@ -75,8 +73,8 @@ class ProfilePage extends Component {
   }
 }
 
-function mapStateToProps({ auth, view, post }) {
-  return { auth, view, post };
+function mapStateToProps({ auth, view }) {
+  return { auth, view };
 }
 
 export default connect(

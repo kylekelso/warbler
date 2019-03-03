@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
 import Navbar from "./Navbar";
 import Main from "./Main";
 import { getSession } from "../store/actions";

@@ -1,14 +1,7 @@
 import axios from "axios";
-import {
-  GET_POSTS,
-  ADD_POST,
-  DELETE_POST,
-  VALIDATE_TAG,
-  REQUEST
-} from "../actionTypes";
+import { GET_POSTS, ADD_POST, DELETE_POST, VALIDATE_TAG } from "../actionTypes";
 
 export const getPosts = (user_id, page = 0) => async dispatch => {
-  dispatch({ type: REQUEST });
   const res = await axios.get(`/api/${user_id}/posts`, {
     params: { page }
   });
