@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import { logoutUser } from "../store/actions";
 import M from "materialize-css";
+import imgLogo from "../images/warbler-logo.png";
 
 class Navbar extends Component {
   componentDidMount() {
@@ -36,9 +37,9 @@ class Navbar extends Component {
         ];
       default:
         return [
-          <li key="1">
-            <Link to="/u/settings">Settings</Link>
-          </li>,
+          // <li key="1">
+          //   <Link to="/u/settings">Settings</Link>
+          // </li>,
           <li key="2">
             <Link to="/a/logout" onClick={this.logout}>
               Logout
@@ -55,8 +56,9 @@ class Navbar extends Component {
           <div className="nav-wrapper">
             <Link
               to={`/${this.props.auth.user.username || ""}`}
-              className="brand-logo center"
+              className="brand-logo"
             >
+              <img src={imgLogo} alt="" />
               Warbler
             </Link>
             <a

@@ -48,7 +48,8 @@ exports.getPosts = async function(req, res, next) {
      * have newest posts first, and make sure to fill author/tags user references.
      */
     console.log(req.params);
-    let posts = await db.Post.find({ author: req.params.user_id })
+    let posts = await db.Post.find()
+      .or([{ author: req.params.user_id }, { tags: req.params.user_id }])
       .skip(page * take)
       .limit(take)
       .sort({ createdAt: "desc" })

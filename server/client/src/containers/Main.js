@@ -4,7 +4,7 @@ import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import ProfilePage from "./ProfilePage";
 
-const Landing = () => <h2>Landing</h2>; //will login and join here
+const Landing = () => <h2 className="home-hero">Welcome to Warbler!</h2>; //will login and join here
 
 class Main extends Component {
   render() {
