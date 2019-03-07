@@ -1,5 +1,9 @@
 .nav-wrapper {
-  background: linear-gradient(to right, #0575e6, #20e3b2);
+  background: linear-gradient(
+    to right,
+    rgba(5, 117, 230, 1),
+    rgba(32, 227, 178, 1)
+  );
 }
 
 .nav-wrapper img {
