@@ -2,13 +2,11 @@ import {
   GET_POSTS,
   ADD_POST,
   DELETE_POST,
-  VALIDATE_TAG,
   RESET_LOADER
 } from "./../actionTypes";
 
 const DEFAULT_STATE = {
   list: [],
-  isValidTag: true,
   loaded: false
 };
 
@@ -30,8 +28,6 @@ export default function(state = DEFAULT_STATE, action) {
         list: state.list.filter(post => post._id !== action.payload.post_id),
         loaded: true
       };
-    case VALIDATE_TAG:
-      return { ...state, isValidTag: !!action.payload, loaded: true };
     default:
       return state;
   }
