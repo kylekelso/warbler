@@ -1,4 +1,5 @@
 import React from "react";
+import * as Yup from "yup";
 import { ErrorMessage } from "formik";
 
 export function renderInput({ field, ...props }) {
@@ -12,46 +13,33 @@ export function renderInput({ field, ...props }) {
   }
 }
 
-export function validate(
-  { username, email, password, profileImgUrl },
-  authType
-) {
-  const errors = {};
+export const signupSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(8, "Too short! Must be between 8 and 30 characters.")
+    .max(30, "Too long! Must be between 8 and 30 characters.")
+    .required("Required field."),
+  email: Yup.string()
+    .email("Invalid email address.")
+    .required("Required field."),
+  password: Yup.string()
+    .min(8, "Too short! Must be between 8 and 30 characters.")
+    .max(30, "Too long! Must be between 8 and 30 characters.")
+    .required("Required field."),
+  passwordConfirm: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Password does not match.")
+    .required("Required field."),
+  profileImgUrl: Yup.string().url("Must be a valid URL.")
+});
 
-  if (!username && authType === "Register") {
-    errors.username = "Required field.";
-  } else if (3 > username.length || username.length > 20) {
-    errors.username = "Must be between 3 and 20 characters.";
-  }
-  if (!email) {
-    errors.email = "Required field.";
-  } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    errors.email = "Invalid email address";
-  }
-  if (!password) {
-    errors.password = "Required field.";
-  } else if (3 > password.length || password.length > 20) {
-    errors.password = "Must be between 3 and 20 characters.";
-  }
-
-  if (profileImgUrl && authType === "Register") {
-    var type = ["jpeg", "jpg", "gif", "png"];
-    var extension = profileImgUrl.substring(profileImgUrl.lastIndexOf(".") + 1);
-
-    if (!profileImgUrl.toLowerCase().startsWith("https://")) {
-      errors.profileImgUrl = "Must start with Https://";
-    } else if (type.indexOf(extension) < 0) {
-      errors.profileImgUrl = "Acceptable extensions: jpeg, jpg, gif, and png";
-      /****  further error checking *****/
-      // let res = await axios.head(profileImgUrl);
-      // if (res.headers["content-type"].indexOf("image") === -1) {
-      //   errors.profileImgUrl = "Url is not an image.";
-      // }
-    }
-  }
-  console.log(errors);
-  return errors;
-}
+export const loginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address.")
+    .required("Required field."),
+  password: Yup.string()
+    .min(8, "Too short! Must be between 8 and 30 characters.")
+    .max(30, "Too long! Must be between 8 and 30 characters.")
+    .required("Required field.")
+});
 
 const _createTextArea = function(field, props) {
   return (
@@ -93,6 +81,8 @@ const _createInput = function(field, props) {
 
 const _fieldLabel = function(name) {
   switch (name) {
+    case "passwordConfirm":
+      return "Confirm Password";
     case "username":
       return "Username";
     case "email":
@@ -122,9 +112,11 @@ const _propPattern = function(type) {
     case "email":
       return "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
     case "text":
-      return ".{3,20}";
+      return ".{8,30}";
     case "password":
-      return ".{3,20}";
+      return ".{8,30}";
+    case "passwordConfirm":
+      return ".{8,30}";
     default:
       return null;
   }

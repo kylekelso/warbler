@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
-import { renderInput, validate } from "./../../utils/fieldHelper";
+import {
+  renderInput,
+  loginSchema,
+  signupSchema
+} from "./../../utils/fieldHelper";
 import M from "materialize-css";
 
 class AuthForm extends Component {
@@ -15,6 +19,7 @@ class AuthForm extends Component {
             username: "",
             email: "",
             password: "",
+            passwordConfirm: "",
             profileImgUrl: ""
           }
         : {
@@ -24,7 +29,9 @@ class AuthForm extends Component {
     return (
       <Formik
         initialValues={initialValues}
-        validate={values => validate(values, this.props.authType)}
+        validationSchema={
+          this.props.authType === "Register" ? signupSchema : loginSchema
+        }
         onSubmit={values => this.props.onSubmit(values)}
       >
         <Form className="col s8 offset-s2">
@@ -33,8 +40,16 @@ class AuthForm extends Component {
           )}
           <Field type="email" name="email" component={renderInput} />
           <Field type="password" name="password" component={renderInput} />
+
           {this.props.authType === "Register" && (
-            <Field type="url" name="profileImgUrl" component={renderInput} />
+            <div>
+              <Field
+                type="password"
+                name="passwordConfirm"
+                component={renderInput}
+              />
+              <Field type="url" name="profileImgUrl" component={renderInput} />
+            </div>
           )}
           <button className="btn waves-effect waves-light right" type="submit">
             Submit
