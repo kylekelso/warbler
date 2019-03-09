@@ -19,3 +19,28 @@ exports.getUser = async function(req, res, next) {
     });
   }
 };
+
+exports.searchUsers = async function(req, res, next) {
+  try {
+    let results = await db.User.find(
+      {
+        username: { $regex: req.query.search, $options: "i" }
+      },
+      { username: 1, profileImgUrl: 1 }
+    ).limit(10);
+
+    return res.status(200).json(
+      results.reduce((result, { username, profileImgUrl }) => {
+        if (username !== req.user.username) {
+          result.push({ username, profileImgUrl });
+        }
+        return result;
+      }, [])
+    );
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message
+    });
+  }
+};

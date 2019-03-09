@@ -1,14 +1,14 @@
 const express = require("express"),
   router = express.Router();
 
-const { getUser } = require("../handlers/user");
+const { getUser, searchUsers } = require("../handlers/user");
 
 /* READ */
 /*
  * Index - will retrieve users via search query (pagination)
  * NOTE: Unused at the moment. Will likely be used in future search function.
  */
-//router.get("/");
+router.get("/users", searchUsers);
 //Show - get specific user
 router.get("/:username", getUser);
 

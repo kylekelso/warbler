@@ -28,6 +28,9 @@ class Navbar extends Component {
         return;
       case false:
         return [
+          <li key="3">
+            <Link to="/i/settings">Settings</Link>
+          </li>,
           <li key="1">
             <Link to="/a/login">Login</Link>
           </li>,
