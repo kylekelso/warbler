@@ -3,6 +3,25 @@ import { connect } from "react-redux";
 import { searchUsers } from "../store/actions";
 import Select from "react-select";
 import "./TagInput.css";
+import defaultProfileImg from "../images/default-profile-image.jpg";
+
+const Option = props => {
+  return (
+    <div
+      className="tag__option"
+      ref={props.innerRef}
+      {...props.innerProps}
+      style={props.getStyles("option", props)}
+    >
+      <img
+        className="circle responsive-img"
+        src={props.data.profileImgUrl || defaultProfileImg}
+        alt=""
+      />
+      <span>{props.children}</span>
+    </div>
+  );
+};
 
 class TagInput extends Component {
   state = { isLoading: false };
@@ -34,10 +53,12 @@ class TagInput extends Component {
   };
 
   mapResults() {
-    return this.props.view.searchResults.map(user => {
-      return { value: user, label: user };
+    return this.props.view.searchResults.map(({ username, profileImgUrl }) => {
+      return { value: username, label: username, profileImgUrl };
     });
   }
+
+  renderValueComponent() {}
 
   render() {
     return (
@@ -52,6 +73,9 @@ class TagInput extends Component {
         placeholder="Tag a user..."
         className="tag-container input-field col s12"
         classNamePrefix="tag"
+        components={{
+          Option
+        }}
       />
     );
   }

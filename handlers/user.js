@@ -26,10 +26,17 @@ exports.searchUsers = async function(req, res, next) {
       {
         username: { $regex: req.query.search, $options: "i" }
       },
-      { username: 1 }
+      { username: 1, profileImgUrl: 1 }
     ).limit(10);
 
-    return res.status(200).json(results.map(user => user.username));
+    return res.status(200).json(
+      results.reduce((result, { username, profileImgUrl }) => {
+        if (username !== req.user.username) {
+          result.push({ username, profileImgUrl });
+        }
+        return result;
+      }, [])
+    );
   } catch (err) {
     return next({
       status: 400,
