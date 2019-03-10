@@ -48,10 +48,6 @@ exports.searchUsers = async function(req, res, next) {
 
 exports.updateUser = async function(req, res, next) {
   try {
-    let user = await db.User.findOne({
-      username: req.user.username
-    });
-
     //possible changes -
     // Username, profileImgUrl, description
     // privateProfile
@@ -70,7 +66,7 @@ exports.updateUser = async function(req, res, next) {
           },
           { runValidators: true, context: "query" }
         );
-        createSession(req, res, user);
+
         return res.status(200).json({ username, profileImgUrl, description });
       case "privacy":
         let { privateProfile } = req.body;
@@ -103,6 +99,7 @@ exports.updateUser = async function(req, res, next) {
           message: "Unknown update command."
         });
     }
+    createSession(req, res, req.user);
   } catch (err) {
     return next({
       status: 400,

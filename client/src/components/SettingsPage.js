@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withFormik, Form, Field } from "formik";
 import { connect } from "react-redux";
 import { renderInput } from "./../utils/fieldHelper";
+import { settingsSchema } from "./../utils/validationHelper";
 import { updateUser } from "../store/actions";
 import DefaultProfileImg from "../images/default-profile-image.jpg";
 import M from "materialize-css";
@@ -23,7 +24,17 @@ class SettingsPage extends Component {
   }
 
   setFormType = function(el) {
-    this.props.resetForm({ ...this.props.initialValues, updateType: el.id });
+    if (el.id === "accPassword") {
+      this.props.resetForm({
+        ...this.props.initialValues,
+        updateType: el.id,
+        oldPassword: "",
+        newPassword: "",
+        confirmNewPassword: ""
+      });
+    } else {
+      this.props.resetForm({ ...this.props.initialValues, updateType: el.id });
+    }
   };
 
   renderProfileSection() {
@@ -228,14 +239,15 @@ const defaultFormVals = props => {
     profileImgUrl,
     description,
     privateProfile,
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: ""
+    oldPassword: "password",
+    newPassword: "password",
+    confirmNewPassword: "password"
   };
 };
 
 SettingsPage = withFormik({
   mapPropsToValues: props => defaultFormVals(props),
+  validationSchema: settingsSchema,
   handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
     if (hasChanged(values, props.auth.user)) {
       var res, subset;
@@ -260,7 +272,6 @@ SettingsPage = withFormik({
             oldPassword,
             newPassword
           }))(values);
-          console.log(subset);
           break;
         case "accEmail":
           break;
@@ -268,11 +279,9 @@ SettingsPage = withFormik({
           subset = {};
           break;
       }
-      console.log(subset);
       res = await props.updateUser(props.auth.user.username, subset);
       if (res && res.status !== 200) {
         let { message } = res.data.error;
-        console.log(message);
         if (message.includes("credentials: invalid.")) {
           setErrors({
             oldPassword: "Wrong password."

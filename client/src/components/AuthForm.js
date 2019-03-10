@@ -120,9 +120,9 @@ AuthForm = withFormik({
     if (res && res.status !== 200) {
       //handle error
       let { message } = res.data.error;
-      if (message.includes("credentials: invalid.")) {
+      if (message.includes("Credentials: Invalid.")) {
         setErrors({
-          username: "Invalid credentials.",
+          password: "Invalid credentials.",
           email: "Invalid credentials."
         });
       } else if (message.includes("email:")) {
