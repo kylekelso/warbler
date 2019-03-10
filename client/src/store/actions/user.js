@@ -1,6 +1,10 @@
 import axios from "axios";
 import _ from "lodash";
-import { SET_PROFILE_VIEW, SET_SEARCH_RESULTS } from "../actionTypes";
+import {
+  SET_PROFILE_VIEW,
+  SET_SEARCH_RESULTS,
+  SET_CURRENT_USER
+} from "../actionTypes";
 
 export const setView = username => async dispatch => {
   const res = await axios.get(`/api/${username}`);
@@ -17,3 +21,8 @@ const _apiSearch = _.debounce(async (search, dispatch) => {
   });
   await dispatch({ type: SET_SEARCH_RESULTS, payload: res.data });
 }, 500);
+
+export const updateUser = (username, data) => async dispatch => {
+  const res = await axios.put(`/api/${username}`, data);
+  dispatch({ type: SET_CURRENT_USER, payload: res.data });
+};

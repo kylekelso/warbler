@@ -24,7 +24,7 @@ p {
 
 #settingsImage {
   height: auto;
-  width: 75px;
+  width: 100%;
 }
 
 .waves-effect.waves-green .waves-ripple {
