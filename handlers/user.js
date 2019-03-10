@@ -48,10 +48,6 @@ exports.searchUsers = async function(req, res, next) {
 
 exports.updateUser = async function(req, res, next) {
   try {
-    let user = await db.User.findOne({
-      username: req.user.username
-    });
-
     //possible changes -
     // Username, profileImgUrl, description
     // privateProfile
@@ -64,20 +60,38 @@ exports.updateUser = async function(req, res, next) {
         await db.User.findOneAndUpdate(
           { username: req.user.username },
           {
-            $set: {
-              username: username,
-              profileImgUrl: profileImgUrl,
-              description: description
-            }
-          }
+            username,
+            profileImgUrl,
+            description
+          },
+          { runValidators: true, context: "query" }
         );
-        createSession(req, res, user);
-        return res
-          .status(200)
-          .json({ id: req.user.id, username, profileImgUrl, description });
+
+        return res.status(200).json({ username, profileImgUrl, description });
       case "privacy":
+        let { privateProfile } = req.body;
+        await db.User.findOneAndUpdate(
+          { username: req.user.username },
+          {
+            privateProfile
+          },
+          { runValidators: true, context: "query" }
+        );
+        return res.status(200).json({ privateProfile });
         break;
-      case "account":
+      case "accPassword":
+        let { oldPassword, newPassword } = req.body;
+        let user = await db.User.findOne({ username: req.user.username });
+        let isMatch = await user.comparePassword(oldPassword);
+        if (isMatch) {
+          user.password = newPassword;
+          user.save();
+        } else {
+          return next({
+            status: 400,
+            message: "Credentials: Invalid."
+          });
+        }
         break;
       default:
         return next({
@@ -85,6 +99,7 @@ exports.updateUser = async function(req, res, next) {
           message: "Unknown update command."
         });
     }
+    createSession(req, res, req.user);
   } catch (err) {
     return next({
       status: 400,

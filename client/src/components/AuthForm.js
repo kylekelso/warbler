@@ -111,7 +111,7 @@ const schema = props => {
 AuthForm = withFormik({
   mapPropsToValues: props => defaultFormVals(props),
   validationSchema: props => schema(props),
-  handleSubmit: async (values, { props, setStatus, setSubmitting }) => {
+  handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
     const res =
       props.history.location.pathname === "/a/register"
         ? await props.registerUser(values)
@@ -120,12 +120,15 @@ AuthForm = withFormik({
     if (res && res.status !== 200) {
       //handle error
       let { message } = res.data.error;
-      if (message.includes("credentials: invalid.")) {
-        setStatus({ credentials: "Invalid credentials." });
+      if (message.includes("Credentials: Invalid.")) {
+        setErrors({
+          password: "Invalid credentials.",
+          email: "Invalid credentials."
+        });
       } else if (message.includes("email:")) {
-        setStatus({ email: "Already registered." });
+        setErrors({ email: "Already registered." });
       } else if (message.includes("username:")) {
-        setStatus({ username: "Username taken." });
+        setErrors({ username: "Username taken." });
       }
     }
     setSubmitting(false);
