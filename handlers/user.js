@@ -64,18 +64,24 @@ exports.updateUser = async function(req, res, next) {
         await db.User.findOneAndUpdate(
           { username: req.user.username },
           {
-            $set: {
-              username: username,
-              profileImgUrl: profileImgUrl,
-              description: description
-            }
-          }
+            username,
+            profileImgUrl,
+            description
+          },
+          { runValidators: true, context: "query" }
         );
         createSession(req, res, user);
-        return res
-          .status(200)
-          .json({ id: req.user.id, username, profileImgUrl, description });
+        return res.status(200).json({ username, profileImgUrl, description });
       case "privacy":
+        let { privateProfile } = req.body;
+        await db.User.findOneAndUpdate(
+          { username: req.user.username },
+          {
+            privateProfile
+          },
+          { runValidators: true, context: "query" }
+        );
+        return res.status(200).json({ privateProfile });
         break;
       case "account":
         break;

@@ -23,6 +23,10 @@ const _apiSearch = _.debounce(async (search, dispatch) => {
 }, 500);
 
 export const updateUser = (username, data) => async dispatch => {
-  const res = await axios.put(`/api/${username}`, data);
-  dispatch({ type: SET_CURRENT_USER, payload: res.data });
+  try {
+    const res = await axios.put(`/api/${username}`, data);
+    dispatch({ type: SET_CURRENT_USER, payload: res.data });
+  } catch (err) {
+    return err.response;
+  }
 };
