@@ -11,23 +11,24 @@ exports.loginUser = async function(req, res, next) {
 
     let isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
-      let { id, username, profileImgUrl } = user;
+      let { id, username, profileImgUrl, description } = user;
       createSession(req, res, user);
       return res.status(200).json({
         id,
         username,
-        profileImgUrl
+        profileImgUrl,
+        description
       });
     } else {
       return next({
         status: 400,
-        message: "Invalid username/password"
+        message: "Credentials: Invalid."
       });
     }
   } catch (err) {
     return next({
       status: 400,
-      message: "Invalid username/password"
+      message: "Credentials: Invalid."
     });
   }
 };
@@ -41,12 +42,13 @@ exports.registerUser = async function(req, res, next) {
   //create user, create session, and send return inital user info
   try {
     let user = await db.User.create(req.body);
-    let { id, username, profileImgUrl } = user;
+    let { id, username, profileImgUrl, description } = user;
     createSession(req, res, user);
     return res.status(200).json({
       id,
       username,
-      profileImgUrl
+      profileImgUrl,
+      description
     });
   } catch (err) {
     return next({

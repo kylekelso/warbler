@@ -1,50 +1,67 @@
 import React, { Component } from "react";
+import { withFormik, Form, Field } from "formik";
+import { connect } from "react-redux";
+import { renderInput } from "./../utils/fieldHelper";
+import { updateUser } from "../store/actions";
 import DefaultProfileImg from "../images/default-profile-image.jpg";
 import M from "materialize-css";
 import "./SettingsPage.css";
 
 class SettingsPage extends Component {
   componentDidMount() {
-    M.AutoInit();
+    if (this.props.auth.isAuthenticated === false) {
+      this.props.history.push("/a/login");
+    } else if (this.props.auth.isAuthenticated === true) {
+      M.AutoInit();
+      M.updateTextFields();
+    }
   }
 
   renderProfileSection() {
+    const { profileImgUrl } = this.props.auth.user;
     return (
       <li className="active">
         <div className="collapsible-header">
           <i className="material-icons">web</i>Profile Settings
         </div>
         <div className="collapsible-body">
-          <div className="row">
-            <div className="input-field inline col s12">
-              <input id="username" name="username" type="text" />
-              <label htmlFor="username">Username</label>
-            </div>
-            <div className="input-field col s10">
-              <input id="profileImgUrl" name="profileImgUrl" type="url" />
-              <label htmlFor="profileImgUrl">Image URL</label>
-            </div>
-            <div className="col s2">
+          <Form className="row" id="profileSettingsForm">
+            <Field
+              className="input-field col s12"
+              type="text"
+              label="Username"
+              name="username"
+              component={renderInput}
+            />
+            <Field
+              className="input-field col s12 m7"
+              type="url"
+              label="Image URL"
+              name="profileImgUrl"
+              component={renderInput}
+            />
+            <div className="col s8 offset-s2 m5 center-align">
               <img
                 id="settingsImage"
-                src={DefaultProfileImg}
+                src={profileImgUrl || DefaultProfileImg}
                 alt=""
                 className="circle"
               />
             </div>
-            <div className="input-field col s12">
-              <textarea
-                id="description"
-                name="description"
-                type="text"
-                className="materialize-textarea"
-              />
-              <label htmlFor="description">Description</label>
-            </div>
-            <div className="waves-effect waves-green light-blue darken-2 btn col right">
+            <Field
+              className="input-field col s12"
+              label="Description"
+              name="description"
+              component={renderInput}
+            />
+            <button
+              className="waves-effect waves-green light-blue darken-2 btn col right"
+              type="submit"
+              name="action"
+            >
               Save <i className="material-icons right">send</i>
-            </div>
-          </div>
+            </button>
+          </Form>
         </div>
       </li>
     );
@@ -159,4 +176,28 @@ class SettingsPage extends Component {
   }
 }
 
-export default SettingsPage;
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+const defaultFormVals = props => {
+  let { username, profileImgUrl, description } = props.auth.user;
+  return {
+    username,
+    profileImgUrl,
+    description
+  };
+};
+
+SettingsPage = withFormik({
+  mapPropsToValues: props => defaultFormVals(props),
+  handleSubmit: (values, { props }) => {
+    values.updateType = "profile";
+    props.updateUser(props.auth.user.username, values);
+  }
+})(SettingsPage);
+
+export default connect(
+  mapStateToProps,
+  { updateUser }
+)(SettingsPage);

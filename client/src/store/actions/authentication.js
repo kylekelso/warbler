@@ -2,8 +2,12 @@ import axios from "axios";
 import { SET_CURRENT_USER } from "./../actionTypes";
 
 export const loginUser = data => async dispatch => {
-  const res = await axios.post("/api/login", data);
-  dispatch({ type: SET_CURRENT_USER, payload: res.data });
+  try {
+    const res = await axios.post("/api/login", data);
+    dispatch({ type: SET_CURRENT_USER, payload: res.data });
+  } catch (err) {
+    return err.response;
+  }
 };
 
 export const logoutUser = () => async dispatch => {
@@ -12,8 +16,12 @@ export const logoutUser = () => async dispatch => {
 };
 
 export const registerUser = data => async dispatch => {
-  const res = await axios.post("/api/register", data);
-  dispatch({ type: SET_CURRENT_USER, payload: res.data });
+  try {
+    const res = await axios.post("/api/register", data);
+    dispatch({ type: SET_CURRENT_USER, payload: res.data });
+  } catch (err) {
+    return err.response;
+  }
 };
 
 export const getSession = () => async dispatch => {
