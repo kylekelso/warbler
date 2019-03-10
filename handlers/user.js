@@ -83,7 +83,19 @@ exports.updateUser = async function(req, res, next) {
         );
         return res.status(200).json({ privateProfile });
         break;
-      case "account":
+      case "accPassword":
+        let { oldPassword, newPassword } = req.body;
+        let user = await db.User.findOne({ username: req.user.username });
+        let isMatch = await user.comparePassword(oldPassword);
+        if (isMatch) {
+          user.password = newPassword;
+          user.save();
+        } else {
+          return next({
+            status: 400,
+            message: "Credentials: Invalid."
+          });
+        }
         break;
       default:
         return next({
