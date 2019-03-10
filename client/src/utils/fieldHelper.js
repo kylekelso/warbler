@@ -1,11 +1,10 @@
 import React from "react";
-import * as Yup from "yup";
 import { ErrorMessage } from "formik";
 
 export function renderInput({ field, ...props }) {
   switch (field.name) {
     case "description":
-      return;
+      return _createTextArea(field, props);
     case "text":
       return _createTextArea(field, props);
     default:
@@ -13,46 +12,17 @@ export function renderInput({ field, ...props }) {
   }
 }
 
-export const signupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(8, "Too short! Must be between 8 and 30 characters.")
-    .max(30, "Too long! Must be between 8 and 30 characters.")
-    .required("Required field."),
-  email: Yup.string()
-    .email("Invalid email address.")
-    .required("Required field."),
-  password: Yup.string()
-    .min(8, "Too short! Must be between 8 and 30 characters.")
-    .max(30, "Too long! Must be between 8 and 30 characters.")
-    .required("Required field."),
-  passwordConfirm: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Password does not match.")
-    .required("Required field."),
-  profileImgUrl: Yup.string().url("Must be a valid URL.")
-});
-
-export const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email address.")
-    .required("Required field."),
-  password: Yup.string()
-    .min(8, "Too short! Must be between 8 and 30 characters.")
-    .max(30, "Too long! Must be between 8 and 30 characters.")
-    .required("Required field.")
-});
-
-const _createTextArea = function(field, props) {
+const _createTextArea = function(field, { className, ...props }) {
   return (
-    <div className="input-field col s10">
+    <div className={className}>
       <textarea
         {...field}
         {...props}
         id="post_textarea"
         data-length="160"
-        className="materialize-textarea validate"
-        required={_propRequired(props.type)}
+        className="materialize-textarea"
       />
-      <label htmlFor="post_textarea">Post a Warble!</label>
+      <label htmlFor="post_textarea">{props.label}</label>
       <ErrorMessage name={field.name}>
         {error => <span className="helper-text" data-error={error} />}
       </ErrorMessage>
@@ -60,64 +30,51 @@ const _createTextArea = function(field, props) {
   );
 };
 
-const _createInput = function(field, props) {
+const _createInput = function(field, { className, ...props }) {
+  let innerClass = _getInnerClass(field, props.form);
+  // if (
+  //   Object.keys(props.form.errors).length > 0 &&
+  //   props.form.touched.hasOwnProperty(field.name)
+  // ) {
+  //   innerClass = props.form.errors.hasOwnProperty(field.name)
+  //     ? "invalid"
+  //     : "valid";
+  // }
+  // if (
+  //   props.form.status &&
+  //   props.form.status.hasOwnProperty(field.name) &&
+  //   innerClass === ""
+  // ) {
+  //   innerClass = "invalid";
+  // }
   return (
-    <div className="input-field col s12">
-      <label>{_fieldLabel(field.name)}</label>
-      <input
-        {...field}
-        {...props}
-        autoComplete="off"
-        className="validate"
-        required={_propRequired(props.type)}
-        pattern={_propPattern(props.type)}
-      />
+    <div className={className}>
+      <label>{props.label}</label>
+      <input {...field} {...props} className={innerClass} autoComplete="off" />
       <ErrorMessage name={field.name}>
-        {error => <span className="helper-text" data-error={error} />}
+        {error => {
+          return <span className="helper-text" data-error={error} />;
+        }}
       </ErrorMessage>
+      {props.form.status &&
+        props.form.status.hasOwnProperty(field.name) &&
+        innerClass === "invalid" && (
+          <span
+            className="helper-text"
+            data-error={props.form.status[field.name]}
+          />
+        )}
     </div>
   );
 };
 
-const _fieldLabel = function(name) {
-  switch (name) {
-    case "passwordConfirm":
-      return "Confirm Password";
-    case "username":
-      return "Username";
-    case "email":
-      return "Email";
-    case "password":
-      return "Password";
-    case "profileImgUrl":
-      return "Image URL";
-    default:
-      return name;
+const _getInnerClass = function(field, { errors, touched, status }) {
+  let innerClass = "";
+  if (Object.keys(errors).length > 0 && touched.hasOwnProperty(field.name)) {
+    innerClass = errors.hasOwnProperty(field.name) ? "invalid" : "valid";
   }
-};
-
-const _propRequired = function(type) {
-  switch (type) {
-    case "description":
-      return false;
-    case "url":
-      return false;
-    default:
-      return true;
+  if (status && status.hasOwnProperty(field.name) && innerClass === "") {
+    innerClass = "invalid";
   }
-};
-
-const _propPattern = function(type) {
-  switch (type) {
-    case "email":
-      return "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
-    case "text":
-      return ".{8,30}";
-    case "password":
-      return ".{8,30}";
-    case "passwordConfirm":
-      return ".{8,30}";
-    default:
-      return null;
-  }
+  return innerClass;
 };

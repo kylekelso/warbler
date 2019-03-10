@@ -8,14 +8,19 @@ import TagInput from "./TagInput";
 class AddPostForm extends Component {
   render() {
     return (
-      <Form className="section col s12">
+      <Form className="section col s12" id="addPostForm">
         <TagInput
           name="tags"
           value={this.props.values.tags}
           onChange={this.props.setFieldValue}
           onBlur={this.props.setFieldTouched}
         />
-        <Field name="text" component={renderInput} />
+        <Field
+          className="input-field col s10"
+          label="Post a Warble!"
+          name="text"
+          component={renderInput}
+        />
         <div className="input-field col s2 center-align">
           <button
             className="btn-floating waves-effect waves-light"
