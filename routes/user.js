@@ -1,14 +1,17 @@
 const express = require("express"),
   router = express.Router();
 
-const { getUser } = require("../handlers/user");
-
+const { getUser, searchUsers, updateUser } = require("../handlers/user");
+const {
+  checkSessionExists,
+  verifySession
+} = require("./../middleware/authentication");
 /* READ */
 /*
  * Index - will retrieve users via search query (pagination)
  * NOTE: Unused at the moment. Will likely be used in future search function.
  */
-//router.get("/");
+router.get("/users", searchUsers);
 //Show - get specific user
 router.get("/:username", getUser);
 
@@ -17,7 +20,7 @@ router.get("/:username", getUser);
  * Edit - edit user profile
  * NOTE: Unused at the moment. Future update.
  */
-//router.put("/:user_id");
+router.put("/:username", checkSessionExists, verifySession, updateUser);
 
 /* DELETE */
 /*

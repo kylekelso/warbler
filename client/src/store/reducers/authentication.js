@@ -10,7 +10,7 @@ export default function(state = DEFAULT_STATE, action) {
     case SET_CURRENT_USER:
       return {
         isAuthenticated: !!Object.keys(action.payload).length,
-        user: action.payload
+        user: { ...state.user, ...action.payload }
       };
     default:
       return state;

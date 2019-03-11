@@ -1,0 +1,27 @@
+body {
+  background-color: #f0f0f0;
+}
+
+h6 {
+  margin: 2rem 0rem;
+}
+
+p {
+  color: #707070;
+}
+
+.collapsible-body {
+  background: #fff;
+}
+
+.collapsible-body .row {
+  margin-bottom: 0px;
+}
+
+.btn-text {
+  text-transform: capitalize;
+}
+
+.waves-effect.waves-green .waves-ripple {
+  background-color: rgba(32, 227, 178, 0.9);
+}

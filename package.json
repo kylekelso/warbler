@@ -1,6 +1,6 @@
 {
   "name": "warbler",
-  "version": "0.5.0",
+  "version": "1.1",
   "description": "Twitter clone",
   "main": "index.js",
   "engines": {
@@ -23,7 +23,8 @@
     "csurf": "^1.9.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.4.10"
+    "mongoose": "^5.4.10",
+    "mongoose-unique-validator": "^2.0.2"
   },
   "devDependencies": {}
 }

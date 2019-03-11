@@ -93,10 +93,16 @@ exports.loadSession = (req, res, next) => {
           return next();
         }
         user.password = undefined;
-        let { id, username, profileImgUrl } = user;
+        let { id, username, profileImgUrl, description, privateProfile } = user;
 
-        req.user = { id, username, profileImgUrl };
-        res.locals.user = { id, username, profileImgUrl };
+        req.user = { id, username, profileImgUrl, description, privateProfile };
+        res.locals.user = {
+          id,
+          username,
+          profileImgUrl,
+          description,
+          privateProfile
+        };
         return next();
       });
     }

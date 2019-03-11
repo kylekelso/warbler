@@ -1,5 +1,14 @@
 .nav-wrapper {
-  background: linear-gradient(to right, #0575e6, #20e3b2);
+  background: linear-gradient(
+    to right,
+    rgba(5, 117, 230, 1),
+    rgba(32, 227, 178, 1)
+  );
+}
+
+.section {
+  background-color: #fff;
+  margin-bottom: 1.5rem;
 }
 
 .nav-wrapper img {
@@ -29,4 +38,8 @@
   background-size: cover;
   color: #fff;
   text-shadow: 0 0 8px #66757f;
+}
+
+#AuthForm {
+  padding: 0.75rem;
 }

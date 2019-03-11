@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unqiue: true
+    unique: true
   },
   username: {
     type: String,
@@ -18,6 +19,14 @@ const userSchema = new mongoose.Schema({
   },
   profileImgUrl: {
     type: String
+  },
+  description: {
+    type: String,
+    default: ""
+  },
+  privateProfile: {
+    type: Boolean,
+    default: false
   },
   posts: [
     {
@@ -51,6 +60,8 @@ userSchema.methods.comparePassword = async function(candidatePwd, next) {
     return next(err);
   }
 };
+
+userSchema.plugin(uniqueValidator, { message: "{VALUE} exists." });
 
 const User = mongoose.model("User", userSchema);
 
