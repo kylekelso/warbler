@@ -44,3 +44,15 @@ export const settingsSchema = Yup.object().shape({
     .required("Required field."),
   profileImgUrl: Yup.string().url("Must be a valid URL.")
 });
+export const profileSchema = Yup.object().shape({
+  username: _username(),
+  profileImgUrl: Yup.string().url("Must be a valid URL.")
+});
+export const privacySchema = Yup.object().shape();
+export const accPassSchema = Yup.object().shape({
+  oldPassword: _password(),
+  newPassword: _password(),
+  confirmNewPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword"), null], "Password does not match.")
+    .required("Required field.")
+});

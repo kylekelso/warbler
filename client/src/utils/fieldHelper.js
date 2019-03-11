@@ -1,6 +1,29 @@
 import React from "react";
 import { ErrorMessage } from "formik";
 
+export function hasFieldsChanged(changedObj, current) {
+  if (changedObj.oldPassword !== "") {
+    return true;
+  }
+
+  for (var key in changedObj) {
+    if (key in current && current[key] !== changedObj[key]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function resolveErrors(message, setErrors) {
+  if (message.includes("Credentials: Invalid.")) {
+    setErrors({
+      oldPassword: "Wrong password."
+    });
+  } else if (message.includes("username:")) {
+    setErrors({ username: "Username taken." });
+  }
+}
+
 export function renderInput({ field, ...props }) {
   switch (field.name) {
     case "description":

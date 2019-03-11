@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 import ProfilePage from "./ProfilePage";
-import SettingsPage from "../components/SettingsPage";
+import SettingsPage from "./settingsPage";
 
 const Landing = () => <h2 className="home-hero">Welcome to Warbler!</h2>; //will login and join here
-
 const loginForm = props => <AuthForm history={props.history} />;
 const registerForm = props => <AuthForm history={props.history} />;
 

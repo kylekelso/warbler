@@ -22,11 +22,6 @@ p {
   text-transform: capitalize;
 }
 
-#settingsImage {
-  height: auto;
-  width: 100%;
-}
-
 .waves-effect.waves-green .waves-ripple {
   background-color: rgba(32, 227, 178, 0.9);
 }
