@@ -1,6 +1,6 @@
 {
   "name": "warbler",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Twitter clone",
   "main": "index.js",
   "engines": {

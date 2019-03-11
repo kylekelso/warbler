@@ -15,7 +15,10 @@ const DEFAULT_STATE = {
 export default function(state = DEFAULT_STATE, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
-      return { ...state, ...action.payload };
+      if (action.payload) {
+        return { ...state, ...action.payload };
+      }
+      return DEFAULT_STATE;
     case SET_PROFILE_VIEW:
       if (action.payload) {
         return { ...state, ...action.payload, userExists: true };

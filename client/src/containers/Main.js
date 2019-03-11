@@ -1,10 +1,34 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 import ProfilePage from "./ProfilePage";
 import SettingsPage from "./settingsPage";
 
-const Landing = () => <h2 className="home-hero">Welcome to Warbler!</h2>; //will login and join here
+const Landing = () => {
+  return (
+    <div>
+      <h2 className="home-hero">
+        Welcome to Warbler!
+        <div className="row">
+          <Link
+            id="loginBtn"
+            to="/a/login"
+            className="waves-effect waves-green light-blue darken-2 btn col left"
+          >
+            <i className="material-icons left">vpn_key</i>Login
+          </Link>
+          <Link
+            id="registerBtn"
+            to="/a/register"
+            className="waves-effect waves-green light-blue darken-2 btn col right"
+          >
+            <i className="material-icons left">person_add</i>Register
+          </Link>
+        </div>
+      </h2>
+    </div>
+  );
+};
 const loginForm = props => <AuthForm history={props.history} />;
 const registerForm = props => <AuthForm history={props.history} />;
 
