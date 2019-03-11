@@ -28,7 +28,7 @@ class AuthForm extends Component {
         <h3 className="col s8 offset-s2">
           {pathname === "/a/register" ? "Join Warbler!" : "Login"}
         </h3>
-        <Form className="col s8 offset-s2" id="AuthForm">
+        <Form className="section col s8 offset-s2 z-depth-1" id="AuthForm">
           {pathname === "/a/register" && (
             <Field
               id="username"

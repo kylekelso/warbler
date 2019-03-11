@@ -34,7 +34,7 @@ class SettingsPage extends Component {
       <li id="privacy">
         <div className="collapsible-header">
           <i className="material-icons">security</i>Privacy &amp; Security
-          Settings (Under Construction)
+          Settings &nbsp; <strong>(Under Construction)</strong>
         </div>
         <div className="collapsible-body">
           <PrivacySection />
@@ -61,8 +61,8 @@ class SettingsPage extends Component {
             </li>
             <li id="accEmail">
               <div className="collapsible-header">
-                <i className="material-icons">email</i>Change Email (Under
-                Construction)
+                <i className="material-icons">email</i>Change Email &nbsp;
+                <strong>(Under Construction)</strong>
               </div>
               <div className="collapsible-body">
                 <div className="row">

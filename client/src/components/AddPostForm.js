@@ -8,7 +8,7 @@ import TagInput from "./TagInput";
 class AddPostForm extends Component {
   render() {
     return (
-      <Form className="section col s12" id="addPostForm">
+      <Form className="section col s12 z-depth-1" id="addPostForm">
         <TagInput
           name="tags"
           value={this.props.values.tags}

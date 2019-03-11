@@ -6,6 +6,11 @@
   );
 }
 
+.section {
+  background-color: #fff;
+  margin-bottom: 1.5rem;
+}
+
 .nav-wrapper img {
   display: inline-block;
   width: 40px;
@@ -33,4 +38,8 @@
   background-size: cover;
   color: #fff;
   text-shadow: 0 0 8px #66757f;
+}
+
+#AuthForm {
+  padding: 0.75rem;
 }

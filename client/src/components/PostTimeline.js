@@ -28,7 +28,7 @@ class PostTimeline extends Component {
   render() {
     return (
       <div>
-        <ul className="section collection">{this.renderContent()}</ul>
+        <ul className="section collection z-depth-1">{this.renderContent()}</ul>
       </div>
     );
   }
