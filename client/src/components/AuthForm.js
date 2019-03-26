@@ -7,10 +7,13 @@ import { signupSchema, loginSchema } from "../utils/validationHelper";
 import M from "materialize-css";
 
 class AuthForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { authType: "login" };
+  }
   componentDidMount() {
     M.AutoInit();
     if (this.props.auth.isAuthenticated) {
-      console.log("redirected");
       this.props.history.push(`/${this.props.auth.user.username}`);
     }
   }
@@ -21,15 +24,44 @@ class AuthForm extends Component {
     }
   }
 
+  handleClick = (...args) => {
+    if (this.state.authType === "login") {
+      this.setState({ authType: "register" });
+    } else {
+      this.setState({ authType: "login" });
+    }
+  };
+
   render() {
-    const { pathname } = this.props.history.location;
+    const { authType } = this.state;
     return (
-      <div className="row">
-        <h3 className="col s8 offset-s2">
-          {pathname === "/a/register" ? "Join Warbler!" : "Login"}
-        </h3>
-        <Form className="section col s8 offset-s2 z-depth-1" id="AuthForm">
-          {pathname === "/a/register" && (
+      <Form
+        id="AuthForm"
+        className="section col l5 offset-l7 m8 offset-m2 s10 offset-s1"
+      >
+        <div className="row">
+          <h4 className="center">Warbler.</h4>
+          <h5 className="center">This is a Twitter Clone.</h5>
+          <br />
+          <button
+            id="loginBtn"
+            type="button"
+            className="col s4 offset-s2 btn"
+            onClick={this.handleClick}
+            disabled={authType === "login" ? true : false}
+          >
+            <i className="material-icons left">vpn_key</i>Login
+          </button>
+          <button
+            id="registerBtn"
+            type="button"
+            className="col s4 btn"
+            onClick={this.handleClick}
+            disabled={authType === "register" ? true : false}
+          >
+            <i className="material-icons left">person_add</i>Sign-Up
+          </button>
+          {authType === "register" && (
             <Field
               id="username"
               className="input-field col s12"
@@ -55,7 +87,7 @@ class AuthForm extends Component {
             component={renderInput}
           />
 
-          {pathname === "/a/register" && (
+          {authType === "register" && (
             <div>
               <Field
                 className="input-field col s12"
@@ -77,8 +109,8 @@ class AuthForm extends Component {
             Submit
             <i className="material-icons right">send</i>
           </button>
-        </Form>
-      </div>
+        </div>
+      </Form>
     );
   }
 }
@@ -88,7 +120,7 @@ function mapStateToProps({ auth, view }) {
 }
 
 const defaultFormVals = props => {
-  return props.history.location.pathname === "/a/register"
+  return props.authType === "register"
     ? {
         username: "",
         email: "",
@@ -103,9 +135,7 @@ const defaultFormVals = props => {
 };
 
 const schema = props => {
-  return props.history.location.pathname === "/a/register"
-    ? signupSchema
-    : loginSchema;
+  return props.authType === "register" ? signupSchema : loginSchema;
 };
 
 AuthForm = withFormik({
@@ -113,7 +143,7 @@ AuthForm = withFormik({
   validationSchema: props => schema(props),
   handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
     const res =
-      props.history.location.pathname === "/a/register"
+      props.authType === "register"
         ? await props.registerUser(values)
         : await props.loginUser(values);
 

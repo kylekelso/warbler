@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import ProfileSection from "../components/settingsPage/profileSection";
 import PrivacySection from "../components/settingsPage/privacySection";
 import AccPassSection from "../components/settingsPage/accPassSection";
+import Navbar from "./Navbar";
 import M from "materialize-css";
 import "./SettingsPage.css";
 
@@ -84,13 +85,16 @@ class SettingsPage extends Component {
 
   render() {
     return (
-      <div className="container">
-        <br />
-        <ul className="collapsible popout">
-          {this.renderProfileSection()}
-          {this.renderPrivacySection()}
-          {this.renderAccountSection()}
-        </ul>
+      <div>
+        <Navbar />
+        <div className="container">
+          <br />
+          <ul className="collapsible popout">
+            {this.renderProfileSection()}
+            {this.renderPrivacySection()}
+            {this.renderAccountSection()}
+          </ul>
+        </div>
       </div>
     );
   }
