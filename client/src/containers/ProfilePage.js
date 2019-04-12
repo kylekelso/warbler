@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setView, getPosts, resetLoader } from "../store/actions";
-import UserAside from "../components/UserAside";
-import PostTimeline from "./../components/PostTimeline";
-import AddPostForm from "./../components/AddPostForm";
-import Spinner from "./../components/spinner";
-import NotFound from "./notFound";
+import UserAside from "./UserAside";
+import PostTimeline from "./PostTimeline";
+import AddPostForm from "./AddPostForm";
+import Navbar from "./Navbar";
+import Spinner from "../components/spinner";
+import NotFound from "../components/notFound";
 
 class ProfilePage extends Component {
   componentDidMount() {
@@ -58,8 +59,11 @@ class ProfilePage extends Component {
   render() {
     return (
       <div className="row">
-        <br />
-        {this.renderContent()}
+        <Navbar />
+        <div className="row">
+          <br />
+          {this.renderContent()}
+        </div>
       </div>
     );
   }
