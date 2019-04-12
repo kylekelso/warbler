@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Main from "./Main";
-import Spinner from "./../components/spinner";
+import Spinner from "./spinner";
 import { getSession } from "../store/actions";
 
 class App extends Component {

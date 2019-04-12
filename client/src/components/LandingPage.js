@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AuthForm from "../components/AuthForm";
+import AuthForm from "../containers/AuthForm";
 
 class Landing extends Component {
   render() {

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ProfileSection from "../components/settingsPage/profileSection";
-import PrivacySection from "../components/settingsPage/privacySection";
-import AccPassSection from "../components/settingsPage/accPassSection";
-import Navbar from "./Navbar";
+import ProfileSection from "../containers/settingsPage/profileSection";
+import PrivacySection from "../containers/settingsPage/privacySection";
+import AccPassSection from "../containers/settingsPage/accPassSection";
+import Navbar from "./containers/Navbar";
 import M from "materialize-css";
 import "./SettingsPage.css";
 
