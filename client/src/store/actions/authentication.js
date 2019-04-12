@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_CURRENT_USER } from "./../actionTypes";
+import { SET_CURRENT_USER, SET_AUTH_TYPE } from "./../actionTypes";
 
 export const loginUser = data => async dispatch => {
   try {
@@ -22,6 +22,10 @@ export const registerUser = data => async dispatch => {
   } catch (err) {
     return err.response;
   }
+};
+
+export const setAuthType = type => async dispatch => {
+  dispatch({ type: SET_AUTH_TYPE, payload: type });
 };
 
 export const getSession = () => async dispatch => {

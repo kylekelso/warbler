@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import ProfileSection from "../containers/settingsPage/profileSection";
 import PrivacySection from "../containers/settingsPage/privacySection";
 import AccPassSection from "../containers/settingsPage/accPassSection";
-import Navbar from "./containers/Navbar";
+import Navbar from "../containers/Navbar";
 import M from "materialize-css";
 import "./SettingsPage.css";
 
