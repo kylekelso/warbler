@@ -27,14 +27,7 @@ class Navbar extends Component {
       case null:
         return;
       case false:
-        return [
-          <li key="1">
-            <Link to="/a/login">Login</Link>
-          </li>,
-          <li key="2">
-            <Link to="/a/register">Register</Link>
-          </li>
-        ];
+        return;
       default:
         return [
           <li key="1">
@@ -59,7 +52,6 @@ class Navbar extends Component {
               className="brand-logo"
             >
               <img src={imgLogo} alt="" />
-              Warbler
             </Link>
             <a
               href="#!"
