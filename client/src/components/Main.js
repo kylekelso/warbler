@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import ProfilePage from "./ProfilePage";
+import ProfilePage from "../containers/ProfilePage";
 import SettingsPage from "./SettingsPage";
 import LandingPage from "./LandingPage";
 

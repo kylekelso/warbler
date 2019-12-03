@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { withFormik, Form, Field } from "formik";
 import { connect } from "react-redux";
-import { setView, loginUser, registerUser } from "../store/actions";
+import {
+  setView,
+  loginUser,
+  registerUser,
+  setAuthType
+} from "../store/actions";
 import { renderInput } from "../utils/fieldHelper";
 import { signupSchema, loginSchema } from "../utils/validationHelper";
 import M from "materialize-css";
 
 class AuthForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { authType: "login" };
-  }
   componentDidMount() {
     M.AutoInit();
     if (this.props.auth.isAuthenticated) {
@@ -24,16 +25,16 @@ class AuthForm extends Component {
     }
   }
 
-  handleClick = (...args) => {
-    if (this.state.authType === "login") {
-      this.setState({ authType: "register" });
+  handleClick = () => {
+    if (this.props.auth.authType === "login") {
+      this.props.setAuthType("register");
     } else {
-      this.setState({ authType: "login" });
+      this.props.setAuthType("login");
     }
   };
 
   render() {
-    const { authType } = this.state;
+    const { authType } = this.props.auth;
     return (
       <Form
         id="AuthForm"
@@ -120,30 +121,29 @@ function mapStateToProps({ auth, view }) {
 }
 
 const defaultFormVals = props => {
-  return props.authType === "register"
-    ? {
-        username: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
-        profileImgUrl: ""
-      }
-    : {
-        email: "",
-        password: ""
-      };
+  return {
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+    profileImgUrl: ""
+  };
 };
 
 const schema = props => {
-  return props.authType === "register" ? signupSchema : loginSchema;
+  return props.auth.authType === "register" ? signupSchema : loginSchema;
 };
 
 AuthForm = withFormik({
   mapPropsToValues: props => defaultFormVals(props),
   validationSchema: props => schema(props),
-  handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
+  handleSubmit: async (
+    values,
+    { props, setErrors, setSubmitting, ...args }
+  ) => {
+    console.log(args);
     const res =
-      props.authType === "register"
+      props.auth.authType === "register"
         ? await props.registerUser(values)
         : await props.loginUser(values);
 
@@ -167,5 +167,5 @@ AuthForm = withFormik({
 
 export default connect(
   mapStateToProps,
-  { setView, loginUser, registerUser }
+  { setView, loginUser, registerUser, setAuthType }
 )(AuthForm);
