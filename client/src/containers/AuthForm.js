@@ -36,10 +36,7 @@ class AuthForm extends Component {
   render() {
     const { authType } = this.props.auth;
     return (
-      <Form
-        id="AuthForm"
-        className="section col l5 offset-l7 m8 offset-m2 s10 offset-s1"
-      >
+      <Form id="AuthForm" className="section col l5 offset-l7 m8 offset-m2 s12">
         <div className="row">
           <h4 className="center">Warbler.</h4>
           <h5 className="center">This is a Twitter Clone.</h5>
@@ -47,7 +44,7 @@ class AuthForm extends Component {
           <button
             id="loginBtn"
             type="button"
-            className="col s4 offset-s2 btn"
+            className="col s6 m4 offset-m2 btn"
             onClick={this.handleClick}
             disabled={authType === "login" ? true : false}
           >
@@ -56,7 +53,7 @@ class AuthForm extends Component {
           <button
             id="registerBtn"
             type="button"
-            className="col s4 btn"
+            className="col s6 m4 btn"
             onClick={this.handleClick}
             disabled={authType === "register" ? true : false}
           >
@@ -165,7 +162,9 @@ AuthForm = withFormik({
   }
 })(AuthForm);
 
-export default connect(
-  mapStateToProps,
-  { setView, loginUser, registerUser, setAuthType }
-)(AuthForm);
+export default connect(mapStateToProps, {
+  setView,
+  loginUser,
+  registerUser,
+  setAuthType
+})(AuthForm);
