@@ -1,7 +1,7 @@
 const express = require("express"),
   bodyParser = require("body-parser"),
   sessions = require("client-sessions"),
-  csurf = require("csurf");
+  compression = require("compression");
 
 const keys = require("./config/keys"),
   authRoutes = require("./routes/authentication"),
@@ -20,6 +20,7 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(loadSession);
+app.use(compression());
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
